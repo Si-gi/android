@@ -12,39 +12,37 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemsAdapter;
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private ItemAdapter itemsAdapter;
     private ListView list;
     private Button btn;
+    private String currentDate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
+        //itemsAdapter = new ArrayAdapter<ItemAdapter>(this, android.R.layout.simple_list_item_1, items);
+        itemsAdapter = new ItemAdapter(MainActivity.this, R.layout.item_todo,items);
         list = (ListView) findViewById(R.id.list);
         btn = findViewById(R.id.btn);
-        items = new ArrayList<String>();
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        //ItemAdapter adapter = new ItemAdapter(MainActivity.this, items);
         list.setAdapter(itemsAdapter);
-        setupListViewListener();
+       // setupListViewListener();
         btn.setOnClickListener(this);
-
-    }
-
-
-
-    private void setupListViewListener() {
         list.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
                     @Override
@@ -55,14 +53,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                 });
+
+    }
+
+    private void setupListViewListener() {
+
     }
 
     @Override
     public void onClick(View v) {
         DialogFragment datePicker = new DatePickerFragment();
         datePicker.show(getSupportFragmentManager(), "date picker");
-
-
     }
 
     @Override
@@ -72,11 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c.set(Calendar.MONTH, i1);
         c.set(Calendar.DAY_OF_MONTH, i2);
         String dateString = DateFormat.getDateInstance().format(c.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        currentDate = sdf.format(new Date());
+        //itemsAdapter.add(itemText + ("     ")+("    Créé le: ")+(" ")+currentDate+ ("    A faire pour le: ")+(" ")+ dateString);
         EditText input = (EditText) findViewById(R.id.input);
         String itemText = input.getText().toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String currentDate = sdf.format(new Date());
-        itemsAdapter.add(itemText + ("     ")+("    Créé le: ")+(" ")+currentDate+ ("    A faire pour le: ")+(" ")+ dateString);
+        Item item = new Item(itemText,currentDate);
+        items.add(item);
+
+//        list.setAdapter(Myadapter);
         input.setText(" ");
     }
 }
