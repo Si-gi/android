@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void setupListViewListener() {
-
-    }
 
     @Override
     public void onClick(View v) {
