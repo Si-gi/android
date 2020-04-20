@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String dateString = DateFormat.getDateInstance().format(c.getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         currentDate = sdf.format(new Date());
-        //itemsAdapter.add(itemText + ("     ")+("    Créé le: ")+(" ")+currentDate+ ("    A faire pour le: ")+(" ")+ dateString);
         EditText input = (EditText) findViewById(R.id.input);
         String itemText = input.getText().toString();
         Item item = new Item(itemText,currentDate);
