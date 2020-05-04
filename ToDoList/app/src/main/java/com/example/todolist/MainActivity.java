@@ -25,15 +25,12 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     private ArrayList<Item> items = new ArrayList<Item>();
     private ItemAdapter itemsAdapter;
-    private ListView list;
-    private Button btn;
-    private String currentDate;
-
-
+    private StringBuilder date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Button btn;
+        ListView list;
         setContentView(R.layout.activity_main);
         //itemsAdapter = new ArrayAdapter<ItemAdapter>(this, android.R.layout.simple_list_item_1, items);
         itemsAdapter = new ItemAdapter(MainActivity.this, R.layout.item_todo,items);
@@ -61,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         DialogFragment datePicker = new DatePickerFragment();
         datePicker.show(getSupportFragmentManager(), "date picker");
+
     }
 
     @Override
@@ -71,10 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c.set(Calendar.DAY_OF_MONTH, i2);
         String dateString = DateFormat.getDateInstance().format(c.getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        currentDate = sdf.format(new Date());
         EditText input = (EditText) findViewById(R.id.input);
         String itemText = input.getText().toString();
-        Item item = new Item(itemText,currentDate);
+        Item item = new Item(itemText+"à faire pour le ",dateString);
         items.add(item);
 
 //        list.setAdapter(Myadapter);
