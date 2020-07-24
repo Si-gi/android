@@ -4,10 +4,10 @@ public class Item {
     private String text;
     private String date;
 
-    public Item(String text, String date) {
-        this.text = text;
-        this.date = date;
-    }
+        public Item(String text, String date) {
+            this.text = text;
+            this.date = date;
+        }
 
     public String getText() {
         return text;
